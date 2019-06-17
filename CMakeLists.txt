@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(ride-c)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-include_directories("duktape" "src")
-#set_source_file_properties("duktape/duktape.c" PROPERTIES COMPILER_FLAGS "-O3 -DNDEBUG")
+include_directories("src" "/usr/include/mozjs-52/")
 set(RIDE_C_SRC
-    "duktape/duktape.c"
-    "src/ride.c"
-    "src/ridejs.c")
+    "src/ride.cpp"
+    "src/ridejs.cpp")
 
 install(FILES src/ride.h DESTINATION include/ride_c)
 
@@ -16,7 +13,7 @@ target_link_libraries(ride_c m)
 
 add_library(ride_c_shared SHARED ${RIDE_C_SRC})
 set_target_properties(ride_c_shared PROPERTIES OUTPUT_NAME ride_c)
-target_link_libraries(ride_c_shared m)
+target_link_libraries(ride_c_shared m mozjs-52)
 
 install(TARGETS ride_c ride_c_shared
         ARCHIVE DESTINATION lib/ride_c
@@ -24,8 +21,8 @@ install(TARGETS ride_c ride_c_shared
         PUBLIC_HEADER DESTINATION include/ride_c
 )
 
-#add_executable(ridejs_test "test.c")
-#target_link_libraries(ridejs_test ride_c)
+add_executable(ridejs_test "test.c")
+target_link_libraries(ridejs_test ride_c mozjs-52)
 
 SET(CPACK_SET_DESTDIR "on")
 set(CPACK_GENERATOR "DEB")

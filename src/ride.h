@@ -11,9 +11,17 @@ typedef struct ride_compile_result_s {
     int complexity;
 } ride_compile_result_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int ride_init_compiler(ride_compiler* compiler);
-int ride_compile(ride_compiler* compiler, char* code, ride_compile_result_t* result);
+int ride_compile(ride_compiler* compiler, const char* code, ride_compile_result_t* result);
 int ride_destroy_compiler(ride_compiler* compiler);
 void ride_destroy_compile_result(ride_compile_result_t* result);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __RIDE_C_RIDE_H_20461__ */
