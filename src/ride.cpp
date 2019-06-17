@@ -65,7 +65,15 @@ int ride_init_compiler(ride_compiler* compiler)
     {
         return 1;
     }
-    return 0;
+    ride_compile_result_t res;
+    memset(&res, 0, sizeof(ride_compile_result_t));
+    if (ride_compile(compiler, "true", &res) != 0) // warmup
+    {
+        return 1;
+    }
+    int error = res.error != NULL ? 1 : 0;
+    ride_destroy_compile_result(&res);
+    return error;
 }
 
 int ride_compile(ride_compiler* compiler, const char* code, ride_compile_result_t* result)
@@ -165,6 +173,7 @@ int ride_destroy_compiler(ride_compiler* compiler)
     JS_EndRequest(ctx);
     JS_DestroyContext(ctx);
     JS_ShutDown();
+    return 0;
 }
 
 void ride_destroy_compile_result(ride_compile_result_t* result)
