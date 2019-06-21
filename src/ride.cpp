@@ -35,7 +35,7 @@ JS::PersistentRootedObject global;
 int ride_init_compiler(ride_compiler* compiler)
 {
     JS_Init();
-    compiler->_ctx = JS_NewContext(8L * 1024 * 1024);
+    compiler->_ctx = JS_NewContext(1024L * 1024 * 1024);
     auto ctx = (JSContext*)compiler->_ctx;
     if (!ctx)
     {
